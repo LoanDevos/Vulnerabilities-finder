@@ -13,11 +13,16 @@ def test_nbre_requetes():
     tab = []
     with open("vmoex-framework/bom.json", encoding="utf-8") as bom_datas:
         data = json.load(bom_datas)
-    for k in range(len(data["components"])):
-        for valeur in data["components"][k]:
-            if valeur == "purl":
-                if "@" in data["components"][k][valeur]:
-                    tab.append(data["components"][k][valeur])
+    if "components" in data:
+        if data["components"]!=None:
+            for item in data["components"]:
+                if "purl" in item:
+                    if (item["purl"]).count("@")==1:
+                        if "?" in item["purl"]:
+                            tmp = str(item["purl"]).split("?")
+                            tab.append(tmp[0])
+                        else:
+                            tab.append(item["purl"])
     # print(tab)
     headers = {
         "accept": "application/vnd.ossindex.component-report.v1+json",
