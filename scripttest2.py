@@ -10,15 +10,14 @@ def vulnerabilites(string):
     with open(string, encoding="utf-8") as bom_datas:
         data = json.load(bom_datas)
     if "components" in data:
-        if data["components"]!=None:
+        if data["components"] is not None:
             for item in data["components"]:
-                if "purl" in item:
-                    if (item["purl"]).count("@")==1:
-                        if "?" in item["purl"]:
-                            tmp = str(item["purl"]).split("?")
-                            tab.append(tmp[0])
-                        else:
-                            tab.append(item["purl"])
+                if "purl" in item and (item["purl"]).count("@") == 1:
+                    if "?" in item["purl"]:
+                        tmp = str(item["purl"]).split("?")
+                        tab.append(tmp[0])
+                    else:
+                        tab.append(item["purl"])
     headers = {
         "accept": "application/vnd.ossindex.component-report.v1+json",
         "Content-Type": "application/vnd.ossindex.component-report-request.v1+json",
